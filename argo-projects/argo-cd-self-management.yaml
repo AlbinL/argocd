@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/AlbinL/argocd/'
+    targetRevision: main
+    path: gitops-operator
+  destination:
+    server: https://console-openshift-console.apps-crc.testing
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
