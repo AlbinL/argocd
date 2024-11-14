@@ -13,6 +13,7 @@ spec:
     server: https://console-openshift-console.apps-crc.testing
     namespace: argocd
   syncPolicy:
+    createNamespace: true
     automated:
       prune: true
       selfHeal: true
