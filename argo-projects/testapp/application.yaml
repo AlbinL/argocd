@@ -10,7 +10,7 @@ spec:
     targetRevision: main
     path: deploy
   destination:
-    server: https://console-openshift-console.apps-crc.testing
+    server: default/api-crc-testing:6443
     namespace: argocd
   syncPolicy:
     createNamespace: true
