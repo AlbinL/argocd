@@ -6,11 +6,11 @@ metadata:
 spec:
   project: default
   source:
+    repoURL: https://github.com/AlbinL/argocd
+    path: argo-projects
+    targetRevision: main
     directory:
       recurse: true
-    repoURL: 'https://github.com/AlbinL/argocd'
-    targetRevision: main
-    path: argo-projects
   destination:
     server: https://api.crc.testing:6443
     namespace: argocd
@@ -18,4 +18,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    createNamespace: true
