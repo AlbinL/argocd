@@ -8,6 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/AlbinL/reference_project'
     targetRevision: main
+    path: ./
     directory:
       recurse: true
   destination:
