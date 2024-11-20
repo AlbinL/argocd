@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: edp-reference-project
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: External git repo
+  sourceRepos:
+  - 'https://github.com/AlbinL/reference_project'
+  destinations:
+  - namespace: edp-reference
+    server: https://api.crc.testing:6443
+  - namespace: argocd
+    server: https://api.crc.testing:6443
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  # Allow all namespaced-scoped resources to be created, except for ResourceQuota, LimitRange, NetworkPolicy
+  namespaceResourceBlacklist:
+  - group: ''
+    kind: ResourceQuota
+  - group: ''
+    kind: LimitRange
+  - group: ''
+    kind: NetworkPolicy
+  # Deny all namespaced-scoped resources from being created, except for Deployment and StatefulSet
+  namespaceResourceWhitelist:
+  - group: 'apps'
+    kind: Deployment
+  - group: 'apps'
+    kind: StatefulSet
+  - group: ''
+    kind: Service
+  - group: 'route.openshift.io'
+    kind: Route
+  - group: 'kafka.strimzi.io'
+    kind: Kafka
+  - group: 'kafka.strimzi.io'
+    kind: KafkaUser
+  roles:
+  # A role which provides read-only access to all applications in the project
+  - name: read-only
+    description: Read-only privileges to edp
+    policies:
+    - p, proj:edp:read-only, applications, get, edp-reference/*, allow
+    groups:
+    - edp-read-only
+  - name: ci-role
+    description: Sync privileges for edp-reference
+    policies:
+    - p, proj:edp:ci-role, applications, sync, edp-reference/*, allow
+    jwtTokens:
+    - iat: 1535390316
