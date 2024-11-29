@@ -10,7 +10,7 @@ spec:
     targetRevision: main
     path: deploy
   destination:
-    server: https://api.crc.testing:6443
+    server: https://kubernetes.default.svc 
     namespace: argocd
   syncPolicy:
     automated:
