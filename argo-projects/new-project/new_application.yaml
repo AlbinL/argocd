@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  new-project-demo
+  namespace: openshift-gitops
+spec:
+  project: new-project-demo
+  source:
+    repoURL: 'https://github.com/AlbinL/reference_project'
+    targetRevision: main
+    path: ./
+    directory:
+      recurse: true
+  destination:
+    server: https://api.crc.testing:6443
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
